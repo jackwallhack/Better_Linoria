@@ -1123,6 +1123,8 @@ local Templates = { -- TO-DO: do it for missing elements.
     --// Window \\--
     Window = {
         Title = "No Title",
+        Logo = "126913430220550",
+        BackgroundImage = "",
         AutoShow = false,
         Position = UDim2.fromOffset(175, 50),
         Size = UDim2.fromOffset(0, 0),
