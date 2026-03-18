@@ -1123,8 +1123,6 @@ local Templates = { -- TO-DO: do it for missing elements.
     --// Window \\--
     Window = {
         Title = "No Title",
-        Logo = "126913430220550",
-        BackgroundImage = "",
         AutoShow = false,
         Position = UDim2.fromOffset(175, 50),
         Size = UDim2.fromOffset(0, 0),
@@ -6601,24 +6599,6 @@ function Library:CreateWindow(...)
         Parent = Inner;
     })
 
-    local WindowLogo = Library:Create("ImageLabel", {
-        AnchorPoint = Vector2.new(1, 0.5),
-        BackgroundTransparency = 1,
-        Image = "rbxassetid://126913430220550",
-        ImageColor3 = Library.AccentColor,
-        Position = UDim2.new(1, -7, 0, 12),
-        Size = UDim2.fromOffset(20, 20),
-        ScaleType = Enum.ScaleType.Fit,
-        ZIndex = 2,
-        Parent = Inner,
-    })
-
-    Window.LogoLabel = WindowLogo
-
-    Library:AddToRegistry(WindowLogo, {
-        ImageColor3 = "AccentColor";
-    })
-
     local MainSectionOuter = Library:Create("Frame", {
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Library.OutlineColor;
@@ -6754,34 +6734,6 @@ function Library:CreateWindow(...)
         BackgroundImage.ImageRectSize = Icon.ImageRectSize
 
         BackgroundImage.Visible = true
-    end
-
-    function Window:SetLogo(NewImage)
-        pcall(function()
-            local LogoLabel = self.LogoLabel
-            if not LogoLabel then return end
-
-            if tonumber(NewImage) then
-                NewImage = "rbxassetid://" .. NewImage
-            end
-
-            if typeof(NewImage) ~= "string" then
-                LogoLabel.Visible = false
-                return
-            end
-
-            local Icon = Library:GetCustomIcon(NewImage)
-            if not Icon then
-                LogoLabel.Visible = false
-                return
-            end
-
-            LogoLabel.Image = Icon.Url
-            LogoLabel.ImageRectOffset = Icon.ImageRectOffset
-            LogoLabel.ImageRectSize = Icon.ImageRectSize
-
-            LogoLabel.Visible = true
-        end)
     end
 
     function Window:AddDialog(Idx, Info)
@@ -8214,11 +8166,7 @@ end
         end)
     end
 
-    task.defer(function()
-        pcall(Window.SetLogo, Window, WindowInfo.Logo or "126913430220550")
-        pcall(Window.SetBackgroundImage, Window, WindowInfo.BackgroundImage or "")
-    end)
-
+    Window:SetBackgroundImage(WindowInfo.BackgroundImage or "")
     if WindowInfo.AutoShow then task.spawn(Library.Toggle) end
 
     Window.Holder = Outer
@@ -8296,4 +8244,3 @@ end))
 getgenv().Linoria = Library
 if getgenv().skip_getgenv_linoria ~= true then getgenv().Library = Library end
 return Library
-print('loaded')
