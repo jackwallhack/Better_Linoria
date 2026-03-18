@@ -1,4 +1,3 @@
-print("executed ts nigga")
 local cloneref = (cloneref or clonereference or function(instance: any)
 	return instance
 end)
@@ -6758,29 +6757,31 @@ function Library:CreateWindow(...)
     end
 
     function Window:SetLogo(NewImage)
-        local LogoLabel = self.LogoLabel
-        if not LogoLabel then return end
+        pcall(function()
+            local LogoLabel = self.LogoLabel
+            if not LogoLabel then return end
 
-        if tonumber(NewImage) then
-            NewImage = "rbxassetid://" .. NewImage
-        end
+            if tonumber(NewImage) then
+                NewImage = "rbxassetid://" .. NewImage
+            end
 
-        if typeof(NewImage) ~= "string" then
-            LogoLabel.Visible = false
-            return
-        end
+            if typeof(NewImage) ~= "string" then
+                LogoLabel.Visible = false
+                return
+            end
 
-        local Icon = Library:GetCustomIcon(NewImage)
-        if not Icon then
-            LogoLabel.Visible = false
-            return
-        end
+            local Icon = Library:GetCustomIcon(NewImage)
+            if not Icon then
+                LogoLabel.Visible = false
+                return
+            end
 
-        LogoLabel.Image = Icon.Url
-        LogoLabel.ImageRectOffset = Icon.ImageRectOffset
-        LogoLabel.ImageRectSize = Icon.ImageRectSize
+            LogoLabel.Image = Icon.Url
+            LogoLabel.ImageRectOffset = Icon.ImageRectOffset
+            LogoLabel.ImageRectSize = Icon.ImageRectSize
 
-        LogoLabel.Visible = true
+            LogoLabel.Visible = true
+        end)
     end
 
     function Window:AddDialog(Idx, Info)
@@ -8213,8 +8214,11 @@ end
         end)
     end
 
-    Window:SetLogo(WindowInfo.Logo or "126913430220550")
-    Window:SetBackgroundImage(WindowInfo.BackgroundImage or "")
+    task.defer(function()
+        pcall(Window.SetLogo, Window, WindowInfo.Logo or "126913430220550")
+        pcall(Window.SetBackgroundImage, Window, WindowInfo.BackgroundImage or "")
+    end)
+
     if WindowInfo.AutoShow then task.spawn(Library.Toggle) end
 
     Window.Holder = Outer
