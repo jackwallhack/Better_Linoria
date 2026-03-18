@@ -6599,6 +6599,22 @@ function Library:CreateWindow(...)
         Parent = Inner;
     })
 
+    local WindowLogo = Library:Create("ImageLabel", {
+        AnchorPoint = Vector2.new(1, 0.5),
+        BackgroundTransparency = 1,
+        Image = "rbxassetid://126913430220550",
+        ImageColor3 = Library.AccentColor,
+        Position = UDim2.new(1, -7, 0, 12),
+        Size = UDim2.fromOffset(20, 20),
+        ScaleType = Enum.ScaleType.Fit,
+        ZIndex = 2,
+        Parent = Inner,
+    })
+
+    Library:AddToRegistry(WindowLogo, {
+        ImageColor3 = "AccentColor";
+    })
+
     local MainSectionOuter = Library:Create("Frame", {
         BackgroundColor3 = Library.BackgroundColor;
         BorderColor3 = Library.OutlineColor;
@@ -6734,6 +6750,26 @@ function Library:CreateWindow(...)
         BackgroundImage.ImageRectSize = Icon.ImageRectSize
 
         BackgroundImage.Visible = true
+    end
+
+    function Window:SetLogo(NewImage)
+        if tonumber(NewImage) then
+            NewImage = "rbxassetid://" .. NewImage
+        end
+
+        assert(typeof(NewImage) == "string", "Image must be a string.")
+
+        local Icon = Library:GetCustomIcon(NewImage)
+        if not Icon then
+            WindowLogo.Visible = false
+            return
+        end
+
+        WindowLogo.Image = Icon.Url
+        WindowLogo.ImageRectOffset = Icon.ImageRectOffset
+        WindowLogo.ImageRectSize = Icon.ImageRectSize
+
+        WindowLogo.Visible = true
     end
 
     function Window:AddDialog(Idx, Info)
@@ -8166,6 +8202,7 @@ end
         end)
     end
 
+    Window:SetLogo(WindowInfo.Logo or "126913430220550")
     Window:SetBackgroundImage(WindowInfo.BackgroundImage or "")
     if WindowInfo.AutoShow then task.spawn(Library.Toggle) end
 
@@ -8244,3 +8281,4 @@ end))
 getgenv().Linoria = Library
 if getgenv().skip_getgenv_linoria ~= true then getgenv().Library = Library end
 return Library
+print('loaded')
