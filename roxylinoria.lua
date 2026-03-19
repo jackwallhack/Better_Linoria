@@ -6728,11 +6728,11 @@ function Library:CreateWindow(...)
         Position = UDim2.fromScale(0, 0);
         Size = UDim2.fromScale(1, 1);
         ScaleType = Enum.ScaleType.Stretch;
-        ZIndex = 2;
+        ZIndex = 3;
         BackgroundTransparency = 1;
-        ImageTransparency = 0.75;
+        ImageTransparency = 0.45;
         Parent = TabContainer;
-        Visible = false;
+        Visible = true;
     })
 
     Library:AddToRegistry(TabContainer, {
