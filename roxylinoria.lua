@@ -8291,4 +8291,4 @@ end))
 getgenv().Linoria = Library
 if getgenv().skip_getgenv_linoria ~= true then getgenv().Library = Library end
 return Library
-																																																							warn('fuck niggers')
+warn('fuck niggers')
