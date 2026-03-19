@@ -6232,15 +6232,15 @@ do
         Image = "rbxassetid://78507376662092";
         Position = UDim2.new(0, 5, 0.5, 0);
         AnchorPoint = Vector2.new(0, 0.5);
-        Size = UDim2.fromOffset(42, 42);
+        Size = UDim2.fromOffset(80, 80);
         BackgroundTransparency = 1;
         ZIndex = 203;
         Parent = InnerFrame;
     })
 
     local WatermarkLabel = Library:CreateLabel({
-        Position = UDim2.new(0, 52, 0, 0);
-        Size = UDim2.new(1, -57, 1, 0);
+        Position = UDim2.new(0, 90, 0, 0);
+        Size = UDim2.new(1, -95, 1, 0);
         TextSize = 14;
         TextXAlignment = Enum.TextXAlignment.Left;
         ZIndex = 203;
@@ -6257,7 +6257,7 @@ do
 
     function Library:SetWatermark(Text)
         local X, Y = Library:GetTextBounds(Text, Library.Font, 14)
-        Library.Watermark.Size = UDim2.new(0, X + 65, 0, math.max(48, (Y * 1.5) + 3))
+        Library.Watermark.Size = UDim2.new(0, X + 100, 0, math.max(86, (Y * 1.5) + 3))
         Library:SetWatermarkVisibility(true)
 
         Library.WatermarkText.Text = Text
