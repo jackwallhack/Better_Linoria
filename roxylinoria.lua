@@ -1,4 +1,3 @@
-print('hest')
 local cloneref = (cloneref or clonereference or function(instance: any)
 	return instance
 end)
@@ -6231,7 +6230,7 @@ do
 
     local WatermarkIcon = Library:Create("ImageLabel", {
         Image = "rbxassetid://78507376662092";
-        Position = UDim2.new(0, 0, 0.5, 0);
+        Position = UDim2.new(0, -2, 0.5, 0);
         AnchorPoint = Vector2.new(0, 0.5);
         Size = UDim2.fromOffset(33, 33);
         BackgroundTransparency = 1;
@@ -6240,8 +6239,8 @@ do
     })
 
     local WatermarkLabel = Library:CreateLabel({
-        Position = UDim2.new(0, 38, 0, 0);
-        Size = UDim2.new(1, -43, 1, 0);
+        Position = UDim2.new(0, 33, 0, 0);
+        Size = UDim2.new(1, -38, 1, 0);
         TextSize = 14;
         TextXAlignment = Enum.TextXAlignment.Left;
         ZIndex = 203;
@@ -6258,7 +6257,7 @@ do
 
     function Library:SetWatermark(Text)
         local X, Y = Library:GetTextBounds(Text, Library.Font, 14)
-        Library.Watermark.Size = UDim2.new(0, X + 50, 0, (Y * 1.5) + 3)
+        Library.Watermark.Size = UDim2.new(0, X + 38, 0, (Y * 1.5) + 3)
         Library:SetWatermarkVisibility(true)
 
         Library.WatermarkText.Text = Text
