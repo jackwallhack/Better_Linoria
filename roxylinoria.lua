@@ -1132,7 +1132,8 @@ local Templates = { -- TO-DO: do it for missing elements.
         NotifySide = "Left",
         ShowCustomCursor = true,
         UnlockMouseWhileOpen = true,
-        Center = false
+        Center = false,
+        BackgroundImage = "102968398767986"
     },
 
     --// Elements \\--
@@ -6766,6 +6767,10 @@ function Library:CreateWindow(...)
         BackgroundImage.ImageRectSize = Icon.ImageRectSize
 
         BackgroundImage.Visible = true
+    end
+
+    if WindowInfo.BackgroundImage and WindowInfo.BackgroundImage ~= "" then
+        Window:SetBackgroundImage(WindowInfo.BackgroundImage)
     end
 
     function Window:AddDialog(Idx, Info)
