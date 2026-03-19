@@ -1,4 +1,4 @@
-print('1')
+warn('wwwwwwwwwwwwwwww')
 local cloneref = (cloneref or clonereference or function(instance: any)
 	return instance
 end)
