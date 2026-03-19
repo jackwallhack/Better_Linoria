@@ -1,4 +1,3 @@
-warn('hicl')
 local cloneref = (cloneref or clonereference or function(instance: any)
 	return instance
 end)
@@ -6181,8 +6180,9 @@ end
 --// Watermark \\--
 do
     local WatermarkOuter = Library:Create("Frame", {
+        AnchorPoint = Vector2.new(0.5, 0);
         BorderColor3 = Color3.new(0, 0, 0);
-        Position = UDim2.new(0, 100, 0, -25);
+        Position = UDim2.new(0.5, 0, 0, 10);
         Size = UDim2.new(0, 213, 0, 20);
         ZIndex = 200;
         Visible = false;
