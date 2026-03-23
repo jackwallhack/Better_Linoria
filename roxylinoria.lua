@@ -1,4 +1,4 @@
--- A
+-- dubs or what
 local cloneref = (cloneref or clonereference or function(instance: any)
 	return instance
 end)
@@ -1425,6 +1425,9 @@ do
                 end
             )
 
+            local TweenInfoQuick = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+            local currentVisibleState = false
+
             function KeybindsToggle:Display(State)
                 KeybindsToggleInner.BackgroundColor3 = State and Library.AccentColor or Library.MainColor
                 KeybindsToggleInner.BorderColor3 = State and Library.AccentColorDark or Library.OutlineColor
@@ -1440,7 +1443,21 @@ do
             end
 
             function KeybindsToggle:SetVisibility(bool)
-                KeybindsToggleContainer.Visible = bool
+                if currentVisibleState == bool then return end
+                currentVisibleState = bool
+                
+                KeybindsToggleContainer.Visible = true
+                TweenService:Create(KeybindsToggleContainer, TweenInfoQuick, { Size = UDim2.new(1, 0, 0, bool and 18 or 0) }):Play()
+                
+                local transparency = bool and 0 or 1
+                TweenService:Create(KeybindsToggleLabel, TweenInfoQuick, { TextTransparency = transparency }):Play()
+                
+                if KeybindsToggleOuter then
+                    TweenService:Create(KeybindsToggleOuter, TweenInfoQuick, { BackgroundTransparency = transparency }):Play()
+                end
+                if KeybindsToggleInner then
+                    TweenService:Create(KeybindsToggleInner, TweenInfoQuick, { BackgroundTransparency = transparency }):Play()
+                end
             end
 
             function KeybindsToggle:SetNormal(bool)
@@ -1622,7 +1639,8 @@ do
             if KeybindsToggle.Loaded then
                 KeybindsToggle:SetNormal(not ShowToggle)
 
-                KeybindsToggle:SetVisibility(true)
+                local ShowKeybind = State and KeyPicker.Value ~= "None" and KeyPicker.Value ~= "Unknown"
+                KeybindsToggle:SetVisibility(ShowKeybind)
                 KeybindsToggle:SetText(string.format("[%s] %s (%s)", tostring(KeyPicker.DisplayValue), Info.Text, KeyPicker.Mode))
                 KeybindsToggle:Display(State)
             end
@@ -1632,18 +1650,26 @@ do
 
             for _, Frame in next, Library.KeybindContainer:GetChildren() do
                 if Frame:IsA("Frame") and Frame.Visible then
-                    YSize = YSize + 18
                     local Label = Frame:FindFirstChild("TextLabel", true)
                     if not Label then continue end
-                    
                     local LabelSize = Label.TextBounds.X + 20
-                    if (LabelSize > XSize) then
-                        XSize = LabelSize
-                    end
+                    if LabelSize > XSize then XSize = LabelSize end
                 end
             end
 
-            Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 220), 0, (YSize + 23 + 6) * DPIScale)
+            -- Ensure UIListLayout exists to safely capture animated content size
+            local Layout = Library.KeybindContainer:FindFirstChildOfClass("UIListLayout")
+            if Layout and not Library.KeybindContainer:GetAttribute("SizeHooked") then
+                Library.KeybindContainer:SetAttribute("SizeHooked", true)
+                Library:GiveSignal(Layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+                    local y = Layout.AbsoluteContentSize.Y
+                    Library.KeybindFrame.Size = UDim2.new(0, math.max(Library.KeybindContainer:GetAttribute("LastX") or 220, 220), 0, (y + 29) * DPIScale)
+                end))
+            end
+            Library.KeybindContainer:SetAttribute("LastX", XSize + 10)
+            
+            local y = Layout and Layout.AbsoluteContentSize.Y or 0
+            Library.KeybindFrame.Size = UDim2.new(0, math.max(XSize + 10, 220), 0, (y + 29) * DPIScale)
             UpdateMenuOuterPos()
         end
 
@@ -1794,49 +1820,10 @@ do
 
                     -- Handle modifier keys --
                     if IsModifierInput(Input) then
-                        local StopLoop = false
-
-                        repeat
-                            task.wait()
-                            if InputService:IsKeyDown(Input.KeyCode) then
-                                task.wait(0.075)
-
-                                if InputService:IsKeyDown(Input.KeyCode) then
-                                    -- Add modifier to the key list --
-                                    if not table.find(ActiveModifiers, ModifiersInput[Input.KeyCode]) then
-                                        ActiveModifiers[#ActiveModifiers + 1] = ModifiersInput[Input.KeyCode]
-                                        KeyPicker:Display(table.concat(ActiveModifiers, " + ") .. " + ...")
-                                    end
-
-                                    -- Wait for another input --
-                                    if GetInput() then
-                                        StopLoop = true
-                                        break -- Invalid Input
-                                    end
-
-                                    -- Escape --
-                                    if Input.KeyCode == Enum.KeyCode.Escape then
-                                        break
-                                    end
-
-                                    -- Stop loop if its a normal key --
-                                    if not IsModifierInput(Input) then
-                                        break
-                                    end
-                                else
-                                    if not table.find(ActiveModifiers, ModifiersInput[Input.KeyCode]) then
-                                        break -- Modifier is meant to be used as a normal key --
-                                    end
-                                end
-                            end
-                        until false
-
-                        if StopLoop then
-                            Picking = false
-                            KeyPicker:Update()
-                            return
-                        end
+                        -- The user demanded standalone modifiers natively immediately toggle keybind capture!
+                        -- By intentionally skipping the modifier polling loop, we bind LShift identically to a native keystroke immediately.
                     end
+
 
                     break -- Input found, end loop
                 until false
