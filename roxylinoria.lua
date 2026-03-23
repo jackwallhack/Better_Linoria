@@ -1,4 +1,4 @@
--- dubs or what
+-- hmmmmmm
 local cloneref = (cloneref or clonereference or function(instance: any)
 	return instance
 end)
@@ -1446,17 +1446,27 @@ do
                 if currentVisibleState == bool then return end
                 currentVisibleState = bool
                 
+                KeybindsToggleContainer:SetAttribute("TargetVisible", bool)
                 KeybindsToggleContainer.Visible = true
+                KeybindsToggleContainer.ClipsDescendants = true
                 TweenService:Create(KeybindsToggleContainer, TweenInfoQuick, { Size = UDim2.new(1, 0, 0, bool and 18 or 0) }):Play()
                 
                 local transparency = bool and 0 or 1
-                TweenService:Create(KeybindsToggleLabel, TweenInfoQuick, { TextTransparency = transparency }):Play()
+                TweenService:Create(KeybindsToggleLabel, TweenInfoQuick, { TextTransparency = transparency, TextStrokeTransparency = transparency }):Play()
                 
                 if KeybindsToggleOuter then
                     TweenService:Create(KeybindsToggleOuter, TweenInfoQuick, { BackgroundTransparency = transparency }):Play()
                 end
                 if KeybindsToggleInner then
                     TweenService:Create(KeybindsToggleInner, TweenInfoQuick, { BackgroundTransparency = transparency }):Play()
+                end
+
+                if not bool then
+                    task.delay(0.2, function()
+                        if currentVisibleState == bool then
+                            KeybindsToggleContainer.Visible = false
+                        end
+                    end)
                 end
             end
 
@@ -1649,7 +1659,7 @@ do
             local XSize = 0
 
             for _, Frame in next, Library.KeybindContainer:GetChildren() do
-                if Frame:IsA("Frame") and Frame.Visible then
+                if Frame:IsA("Frame") and Frame:GetAttribute("TargetVisible") then
                     local Label = Frame:FindFirstChild("TextLabel", true)
                     if not Label then continue end
                     local LabelSize = Label.TextBounds.X + 20
