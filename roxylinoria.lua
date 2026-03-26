@@ -6241,7 +6241,7 @@ do
     })
 
     local WatermarkIcon = Library:Create("ImageLabel", {
-        Image = "rbxassetid://78507376662092";
+        Image = "rbxassetid://105772752642203";
         Position = UDim2.new(0, -2, 0.5, 0);
         AnchorPoint = Vector2.new(0, 0.5);
         Size = UDim2.fromOffset(33, 33);
