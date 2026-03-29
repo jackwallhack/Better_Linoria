@@ -1,4 +1,4 @@
--- gg 3/25/26 v2
+-- gg 3/25/26 v3
 local cloneref = (cloneref or clonereference or function(instance: any)
 	return instance
 end)
@@ -7687,10 +7687,10 @@ end
             -- local GroupboxLabel = 
             Library:CreateLabel({
                 Size = UDim2.new(1, 0, 0, 18);
-                Position = UDim2.new(0, 4, 0, 2);
+                Position = UDim2.new(0, 0, 0, 2);
                 TextSize = 14;
                 Text = Info.Name;
-                TextXAlignment = Enum.TextXAlignment.Left;
+                TextXAlignment = Enum.TextXAlignment.Center;
                 ZIndex = 5;
                 Parent = BoxInner;
             })
@@ -7777,7 +7777,7 @@ end
                 BackgroundColor3 = Library.AccentColor;
                 BorderSizePixel = 0;
                 Size = UDim2.new(1, 0, 0, 2);
-                ZIndex = 10;
+                ZIndex = 5;
                 Parent = BoxInner;
             })
 
