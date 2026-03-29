@@ -1,4 +1,4 @@
--- gg 3/25/26 v3
+-- gg 3/25/26 v2
 local cloneref = (cloneref or clonereference or function(instance: any)
 	return instance
 end)
@@ -7777,7 +7777,7 @@ end
                 BackgroundColor3 = Library.AccentColor;
                 BorderSizePixel = 0;
                 Size = UDim2.new(1, 0, 0, 2);
-                ZIndex = 5;
+                ZIndex = 10;
                 Parent = BoxInner;
             })
 
