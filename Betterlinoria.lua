@@ -6244,7 +6244,7 @@ do
         Image = "rbxassetid://90751291069600";
         Position = UDim2.new(0, -2, 0.5, 0);
         AnchorPoint = Vector2.new(0, 0.5);
-        Size = UDim2.fromOffset(25, 25);
+        Size = UDim2.fromOffset(20, 20);
         BackgroundTransparency = 1;
         ZIndex = 203;
         Parent = InnerFrame;
