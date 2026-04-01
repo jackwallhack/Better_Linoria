@@ -1,5 +1,4 @@
--- just a sigma
-
+-- gg 3/25/26 v2
 local cloneref = (cloneref or clonereference or function(instance: any)
 	return instance
 end)
@@ -6241,10 +6240,11 @@ do
     })
 
     local WatermarkLabel = Library:CreateLabel({
-        Position = UDim2.new(0, 4, 0, 0);
-        Size = UDim2.new(1, -8, 1, 0);
+        Position = UDim2.new(0, 6, 0, 0);
+        Size = UDim2.new(1, -12, 1, 0);
         TextSize = 14;
         TextXAlignment = Enum.TextXAlignment.Left;
+        TextYAlignment = Enum.TextYAlignment.Center;
         ZIndex = 203;
         Parent = InnerFrame;
     })
@@ -6258,10 +6258,11 @@ do
     end
 
     function Library:SetWatermark(Text)
+        local horizontalPadding = 6
         local X, Y = Library:GetTextBounds(Text, Library.Font, 14)
-        Library.Watermark.Size = UDim2.new(0, X + 8, 0, (Y * 1.5) + 3)
-        Library.WatermarkText.Position = UDim2.new(0, 4, 0, 0)
-        Library.WatermarkText.Size = UDim2.new(1, -8, 1, 0)
+        Library.Watermark.Size = UDim2.new(0, X + (horizontalPadding * 2), 0, math.max(20, Y + 6))
+        Library.WatermarkText.Position = UDim2.new(0, horizontalPadding, 0, 0)
+        Library.WatermarkText.Size = UDim2.new(1, -(horizontalPadding * 2), 1, 0)
         Library:SetWatermarkVisibility(true)
 
         Library.WatermarkText.Text = Text
