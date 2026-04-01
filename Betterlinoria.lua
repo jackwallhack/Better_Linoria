@@ -1141,6 +1141,7 @@ local Templates = { -- TO-DO: do it for missing elements.
         ShowCustomCursor = true,
         UnlockMouseWhileOpen = true,
         Center = false,
+	    BackgroundImage = "rbxassetid://90751291069600"
     },
 
     --// Elements \\--
@@ -6240,7 +6241,7 @@ do
     })
 
     local WatermarkIcon = Library:Create("ImageLabel", {
-        Image = "rbxassetid://105772752642203";
+        Image = "rbxassetid://90751291069600";
         Position = UDim2.new(0, -2, 0.5, 0);
         AnchorPoint = Vector2.new(0, 0.5);
         Size = UDim2.fromOffset(33, 33);
